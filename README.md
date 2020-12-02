@@ -20,5 +20,8 @@ Uses strings.Count to work out the number of specified letter and checks againt 
 #### Part 2 Worker
 Checks for correct letter in both positions and uses an Xor to check if correct
 ### Benchmarks
-Runs in 1.2ms for 1000 input
-Runs in 1.4 seconds for 1,000,000 input
+First Benchmark is for both parts with standard input. Second Benchmark is for both test with large input (1,000,000 lines)
+```
+BenchmarkParts-8                     930           1306451 ns/op
+BenchmarkPartsStress-8                 1        1404996500 ns/op
+```
