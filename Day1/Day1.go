@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"errors"
 	"fmt"
 	"os"
 	"sort"
@@ -25,15 +24,24 @@ func day2(input []int) int {
 	sort.Ints(input)
 
 	for i := 0; i < len(input); i++ {
-		for j := 1; j < len(input); j++ {
+		for j := i + 1; j < len(input); j++ {
 			if i != j && input[i]+input[j] < 2020 {
-				for k := 2; k < len(input); k++ {
-					if k != i && k != j {
+				kBot := i
+				kTop := j
+				for {
+					k := (kBot + kTop) / 2
+					if k != kBot && k != kTop {
 						if input[i]+input[j]+input[k] == 2020 {
 							return input[i] * input[j] * input[k]
 						} else if input[i]+input[j]+input[k] > 2020 {
-							break
+							kTop = k
+							k = (k + kBot) / 2
+						} else {
+							kBot = k
+							k = (k + kTop) / 2
 						}
+					} else {
+						break
 					}
 				}
 			}
@@ -43,24 +51,17 @@ func day2(input []int) int {
 }
 
 func day1(input []int) int {
-	sort.Ints(input)
+	intMap := make(map[int]bool)
 
-	i := 0
-	j := len(input) - 1
+	for _, i := range input {
+		lookup := 2020 - i
 
-	for {
-		if input[i]+input[j] == 2020 {
-			return input[i] * input[j]
-		} else if input[i]+input[j] < 2020 {
-			i++
-		} else {
-			j--
+		if _, ok := intMap[lookup]; ok {
+			return i * lookup
 		}
-
-		if i == j {
-			panic(errors.New("not found"))
-		}
+		intMap[i] = true
 	}
+	return 0
 
 }
 
@@ -72,6 +73,7 @@ func readLines(path string) ([]int, error) {
 	defer file.Close()
 
 	var lines []int
+
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		line, _ := strconv.Atoi(scanner.Text())
