@@ -25,3 +25,16 @@ First Benchmark is for both parts with standard input. Second Benchmark is for b
 BenchmarkParts-8                     930           1306451 ns/op
 BenchmarkPartsStress-8                 1        1404996500 ns/op
 ```
+
+## Day 3
+### Solution
+Read input file into a 2d int array of 1s and 0s where 1 denotes '#'. 
+#### Part 1
+Function part1 loops down list going down and right the amount specified each iteration. A modulus operation is used to keep the right in range, this simulates the repeating pattern. All inputs hit on the 2d are summed for output.
+#### Part 2
+Creates arrray of the different slopes, runs each one of these through the part1 function asyncronously and then uses channels to send the results to be multiplied together.
+### Benchmarks
+```
+BenchmarkParts-8                    3076            379064 ns/op
+BenchmarkPartsStress-8              2925            419485 ns/op
+```
