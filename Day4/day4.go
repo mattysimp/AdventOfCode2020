@@ -22,7 +22,7 @@ type passPort struct {
 }
 
 func main() {
-	fmt.Println(Parts("Day4/inputexample2.txt"))
+	fmt.Println(Parts("Day4/input.txt"))
 }
 
 var count1 int
@@ -33,92 +33,67 @@ func Parts(input string) (int, int) {
 	count1 = 0
 	count2 = 0
 
-	jobs1 := make(chan string)
-	jobs2 := make(chan string)
-	result1 := make(chan int)
-	result2 := make(chan int)
+	jobs := make(chan string)
+	result := make(chan int)
 	done := make(chan bool, 1)
 	wg := new(sync.WaitGroup)
 
 	for x := 0; x < 10; x++ {
-		go processor1(jobs1, result1, wg)
-		go processor2(jobs2, result2, wg)
+		go processor1(jobs, result, wg)
 	}
 
-	go reciever1(result1, done)
-	go reciever2(result2, done)
+	go reciever(result, done)
 
-	readLinesAsync(input, jobs1, jobs2, wg)
+	readLinesAsync(input, jobs, wg)
 
 	wg.Wait()
-	close(result1)
-	close(result2)
-	<-done
+	close(result)
 	<-done
 	return count1, count2
 }
 
-func reciever1(result <-chan int, done chan<- bool) {
+func reciever(result <-chan int, done chan<- bool) {
 	for Result := range result {
-		count1 += Result
-	}
-	done <- true
-}
-func reciever2(result <-chan int, done chan<- bool) {
-	for Result := range result {
-		count2 += Result
+		if Result == 1 {
+			count1++
+		} else {
+			count2++
+		}
 	}
 	done <- true
 }
 
 func processor1(jobs <-chan string, result chan<- int, wg *sync.WaitGroup) {
-	var pp *passPort
+	// var pp *passPort
 	for strpp := range jobs {
-		pp = new(passPort)
+		pp1 := new(passPort)
+		pp2 := new(passPort)
 		split := strings.Split(strpp, " ")
 
 		for _, kv := range split {
 			kvsplit := strings.Split(kv, ":")
-			set(pp, kvsplit[0], kvsplit[1])
+			set(pp1, kvsplit[0], kvsplit[1])
+			setWithVal(pp2, kvsplit[0], kvsplit[1])
 		}
 
-		if pp.byr == 0 || pp.iyr == 0 || pp.eyr == 0 || pp.hgt == "" || pp.hcl == "" || pp.ecl == "" || pp.pid == "" {
-			result <- 0
-		} else {
+		if pp1.byr != 0 && pp1.iyr != 0 && pp1.eyr != 0 && pp1.hgt != "" && pp1.hcl != "" && pp1.ecl != "" && pp1.pid != "" {
 			result <- 1
 		}
-		wg.Done()
-	}
-
-}
-func processor2(jobs <-chan string, result chan<- int, wg *sync.WaitGroup) {
-	var pp *passPort
-	for strpp := range jobs {
-		pp = new(passPort)
-		split := strings.Split(strpp, " ")
-
-		for _, kv := range split {
-			kvsplit := strings.Split(kv, ":")
-			setWithVal(pp, kvsplit[0], kvsplit[1])
-		}
-		if pp.byr == 0 || pp.iyr == 0 || pp.eyr == 0 || pp.hgt == "" || pp.hcl == "" || pp.ecl == "" || pp.pid == "" {
-			result <- 0
-		} else {
-			result <- 1
+		if pp2.byr != 0 && pp2.iyr != 0 && pp2.eyr != 0 && pp2.hgt != "" && pp2.hcl != "" && pp2.ecl != "" && pp2.pid != "" {
+			result <- 2
 		}
 		wg.Done()
 	}
 
 }
 
-func readLinesAsync(path string, jobs1 chan<- string, jobs2 chan<- string, wg *sync.WaitGroup) {
+func readLinesAsync(path string, jobs chan<- string, wg *sync.WaitGroup) {
 	file, err := os.Open(path)
 	if err != nil {
 		panic(err)
 	}
 	defer file.Close()
-	defer close(jobs1)
-	defer close(jobs2)
+	defer close(jobs)
 
 	scanner := bufio.NewScanner(file)
 	var pp string
@@ -126,17 +101,15 @@ func readLinesAsync(path string, jobs1 chan<- string, jobs2 chan<- string, wg *s
 		liner := scanner.Text()
 
 		if liner == "" {
-			wg.Add(2)
-			jobs1 <- pp[1:]
-			jobs2 <- pp[1:]
+			wg.Add(1)
+			jobs <- pp[1:]
 			pp = ""
 		} else {
 			pp = pp + " " + liner
 		}
 	}
-	wg.Add(2)
-	jobs1 <- pp[1:]
-	jobs2 <- pp[1:]
+	wg.Add(1)
+	jobs <- pp[1:]
 }
 func set(pp *passPort, key string, val string) {
 	if key == "byr" {
