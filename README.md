@@ -38,3 +38,16 @@ Creates arrray of the different slopes, runs each one of these through the part1
 BenchmarkParts-8                    3076            379064 ns/op
 BenchmarkPartsStress-8              2925            419485 ns/op
 ```
+
+## Day 4
+### Solution
+Read input file send to workers at every empty line, workers convert to passport record. Count non blank passport record 
+#### Part 1
+Just checks for non blanks when creating passport.
+#### Part 2
+Checks for non blanks and validates entries with a mixture of regex and logic when creating passport.
+### Benchmarks
+```
+BenchmarkParts-8                     528           2206440 ns/op
+BenchmarkPartsStress-8                 1        1792000900 ns/op
+```
