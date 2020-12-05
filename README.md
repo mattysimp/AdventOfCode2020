@@ -51,3 +51,15 @@ Uses SetWithVal function that checks for non blanks and validates entries with a
 BenchmarkParts-8                     573           2038401 ns/op
 BenchmarkPartsStress-8                 1        1663997800 ns/op
 ```
+
+## Day 5
+### Solution
+Read input lines asyncronously and send them to worker. Worker converts the letters into binary and then into an integer for both row and column. 
+#### Part 1
+ID of each input is compared to a max id. If its greater max id is replaced
+#### Part 2
+IDs are stored in map, all possible ids are looped over. If ID is not in map but both ID+1 and ID-1 are then it is our seat
+### Benchmarks
+```
+BenchmarkParts-8             504           2152936 ns/op
+```
