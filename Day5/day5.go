@@ -26,10 +26,8 @@ func (s *Seat) getID() {
 }
 
 func binary(str string) int {
-	str = strings.ReplaceAll(str, "F", "0")
-	str = strings.ReplaceAll(str, "L", "0")
-	str = strings.ReplaceAll(str, "B", "1")
-	str = strings.ReplaceAll(str, "R", "1")
+	replacer := strings.NewReplacer("F", "0", "L", "0", "B", "1", "R", "1")
+	str = replacer.Replace(str)
 	i, _ := strconv.ParseInt(str, 2, 64)
 	return int(i)
 }
