@@ -1,12 +1,11 @@
 package main
 
 import (
-	"bufio"
 	"strconv"
-	"os"
 	"sync"
 	"fmt"
 	"strings"
+	"AdventOfCode2020/fileReader"
 )
 
 type Seat struct {
@@ -50,7 +49,7 @@ func parts(inputFile string) (int, int) {
 
 	go reciever(result, wg)
 
-	readLinesAsync(inputFile, jobs, wg)
+	fileReader.ReadLinesAsync(inputFile, jobs, wg)
 
 	wg.Wait()
 	
@@ -75,23 +74,6 @@ func processor(jobs <-chan string, result chan<- *Seat, wg *sync.WaitGroup) {
 	}
 }
 
-func readLinesAsync(path string, jobs chan<- string, wg *sync.WaitGroup) {
-	file, err := os.Open(path)
-	if err != nil {
-		panic(err)
-	}
-	defer file.Close()
-	defer close(jobs)
-
-	scanner := bufio.NewScanner(file)
-
-	for scanner.Scan() {
-		liner := scanner.Text()
-		wg.Add(1)
-		jobs <- liner
-
-	}
-}
 
 func checkSeatMap() (int) {
 	var lastok bool

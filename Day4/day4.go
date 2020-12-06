@@ -1,13 +1,12 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 	"regexp"
 	"strconv"
 	"strings"
 	"sync"
+	"AdventOfCode2020/fileReader"
 )
 
 type passPort struct {
@@ -44,7 +43,7 @@ func Parts(input string) (int, int) {
 
 	go reciever(result, done)
 
-	readLinesAsync(input, jobs, wg)
+	fileReader.ReadLinesGroupsAsync(input, jobs, wg)
 
 	wg.Wait()
 	close(result)
@@ -68,10 +67,12 @@ func processor1(jobs <-chan string, result chan<- int, wg *sync.WaitGroup) {
 	for strpp := range jobs {
 		pp1 := new(passPort)
 		pp2 := new(passPort)
-		split := strings.Split(strpp, " ")
+		lineSplit := strings.Split(strpp[1:], "@")
+		split := strings.Split(lineSplit[0], " ")
 
 		for _, kv := range split {
 			kvsplit := strings.Split(kv, ":")
+			
 			set(pp1, kvsplit[0], kvsplit[1])
 			setWithVal(pp2, kvsplit[0], kvsplit[1])
 		}
@@ -87,30 +88,6 @@ func processor1(jobs <-chan string, result chan<- int, wg *sync.WaitGroup) {
 
 }
 
-func readLinesAsync(path string, jobs chan<- string, wg *sync.WaitGroup) {
-	file, err := os.Open(path)
-	if err != nil {
-		panic(err)
-	}
-	defer file.Close()
-	defer close(jobs)
-
-	scanner := bufio.NewScanner(file)
-	var pp string
-	for scanner.Scan() {
-		liner := scanner.Text()
-
-		if liner == "" {
-			wg.Add(1)
-			jobs <- pp[1:]
-			pp = ""
-		} else {
-			pp = pp + " " + liner
-		}
-	}
-	wg.Add(1)
-	jobs <- pp[1:]
-}
 func set(pp *passPort, key string, val string) {
 	if key == "byr" {
 		intval, _ := strconv.Atoi(val)
