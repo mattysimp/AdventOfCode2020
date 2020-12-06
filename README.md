@@ -63,3 +63,16 @@ IDs are stored in map, all possible ids are looped over. If ID is not in map but
 ```
 BenchmarkParts-8             504           2152936 ns/op
 ```
+
+## Day 6
+### Solution
+Read input file sends content and number of passengers in a group to workers at every empty line
+#### Part 1
+Worker calculates unique answers in content
+#### Part 2
+Worker calculates number of answers that have the same count as number of passengers in group
+### Benchmarks
+```
+BenchmarkParts-8                    1262           1048497 ns/op
+BenchmarkPartsStress-8                 3         478022600 ns/op
+```
