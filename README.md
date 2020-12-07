@@ -76,3 +76,15 @@ Worker calculates number of answers that have the same count as number of passen
 BenchmarkParts-8                    1262           1048497 ns/op
 BenchmarkPartsStress-8                 3         478022600 ns/op
 ```
+
+## Day7
+### Solution
+Read input file sends contents asynchronously to a single processor which creates a tree of bags with a hash table of bag pointers to find the starting point in the tree. Has to wait until all data is read to start traversing the tree
+#### Part 1
+Traverses the tree upwards concurrently using hash table to keep track of total unique colours hit while traversing 
+#### Part 2
+Traverses the tree downwords concurrently sending number of bags needed to a reciever which totals up
+### Benchmarks
+```
+BenchmarkParts-8             115          10226053 ns/op
+```

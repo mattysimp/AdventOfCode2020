@@ -1,12 +1,11 @@
 package fileReader
 
 import (
-	"sync"
-	"os"
 	"bufio"
+	"os"
 	"strconv"
+	"sync"
 )
-
 
 func ReadLinesAsync(path string, jobs chan<- string, wg *sync.WaitGroup) {
 	file, err := os.Open(path)
@@ -46,9 +45,9 @@ func ReadLinesGroupsAsync(path string, jobs chan<- string, wg *sync.WaitGroup) {
 			lineCount = 0
 		} else {
 			pp = pp + " " + liner
-			lineCount ++
+			lineCount++
 		}
-		
+
 	}
 	wg.Add(1)
 	jobs <- pp + "@" + strconv.Itoa(lineCount)
