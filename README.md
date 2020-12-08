@@ -88,3 +88,16 @@ Traverses the tree downwords concurrently sending number of bags needed to a rec
 ```
 BenchmarkParts-8             115          10226053 ns/op
 ```
+
+## Day8
+### Solution
+Read input file into slice. Run through game console slice following the nop, acc and jmp instructions
+#### Part 1
+Keep hash table of all input line ran. If hash mapping exists for input line then it has already been ran, return accumulator
+#### Part 2
+Loop and brute force edits to nop and jmp instructions. Flag if game console booter ends through the last line or through the hash repeat. Asynchronously run each edited input until one flags as booted.
+### Benchmarks
+```
+BenchmarkPart1-8            6081            336293 ns/op
+BenchmarkPart2-8             170           7111766 ns/op
+```

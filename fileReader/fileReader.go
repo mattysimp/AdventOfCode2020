@@ -7,6 +7,24 @@ import (
 	"sync"
 )
 
+func ReadLines(path string) []string {
+	file, err := os.Open(path)
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+
+	var output []string
+
+	scanner := bufio.NewScanner(file)
+
+	for scanner.Scan() {
+		liner := scanner.Text()
+		output = append(output, liner)
+	}
+	return output
+}
+
 func ReadLinesAsync(path string, jobs chan<- string, wg *sync.WaitGroup) {
 	file, err := os.Open(path)
 	if err != nil {
