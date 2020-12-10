@@ -7,6 +7,11 @@ import (
 	"sync"
 )
 
+type XMAS struct {
+	Num   int
+	Place int
+}
+
 func ReadLines(path string) []string {
 	file, err := os.Open(path)
 	if err != nil {
@@ -25,6 +30,27 @@ func ReadLines(path string) []string {
 	return output
 }
 
+func ReadLinesXMAS(path string) []XMAS {
+	file, err := os.Open(path)
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+
+	var output []XMAS
+	var counter int
+
+	scanner := bufio.NewScanner(file)
+
+	for scanner.Scan() {
+		liner := scanner.Text()
+		lineInt, _ := strconv.Atoi(liner)
+		lineXMAS := XMAS{Num: lineInt, Place: counter}
+		output = append(output, lineXMAS)
+		counter++
+	}
+	return output
+}
 func ReadLinesAsync(path string, jobs chan<- string, wg *sync.WaitGroup) {
 	file, err := os.Open(path)
 	if err != nil {

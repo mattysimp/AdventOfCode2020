@@ -101,3 +101,15 @@ Loop and brute force edits to nop and jmp instructions. Flag if game console boo
 BenchmarkPart1-8            6081            336293 ns/op
 BenchmarkPart2-8             170           7111766 ns/op
 ```
+
+## Day9
+### Solution
+#### Part 1
+Loop through slice and send each 26 element slice to worker. In worker, loop through each slice creating a hash table used to find the sum of 2 that adds to the final element. If it doesn't exist then return the final element.
+#### Part 2
+Loop through slice and send each set of element slice to worker (Slice[1:...], Slice[2:...], etc). In worker, loop through each slice to try and have a combination which adds to the answer to part 1, recording the largest and smallest numbers. Send any valid answer to reciever with the posiiton in the input array. Answer with the lowest input position is correct,
+### Benchmarks
+```
+BenchmarkPart1-8                    1188           1147305 ns/op
+BenchmarkPart2WithPart1-8           1999            651826 ns/op
+```
