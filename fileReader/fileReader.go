@@ -12,6 +12,15 @@ type XMAS struct {
 	Place int
 }
 
+func ConvertToXmas(lines []int) []XMAS {
+	var output []XMAS
+	for i, val := range lines {
+		lineXMAS := XMAS{Num: val, Place: i}
+		output = append(output, lineXMAS)
+	}
+	return output
+}
+
 func ReadLines(path string) []string {
 	file, err := os.Open(path)
 	if err != nil {
@@ -30,6 +39,25 @@ func ReadLines(path string) []string {
 	return output
 }
 
+func ReadLinesInt(path string) []int {
+	file, err := os.Open(path)
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+
+	var output []int
+
+	scanner := bufio.NewScanner(file)
+
+	for scanner.Scan() {
+		liner := scanner.Text()
+		lineInt, _ := strconv.Atoi(liner)
+		output = append(output, lineInt)
+	}
+	return output
+}
+
 func ReadLinesXMAS(path string) []XMAS {
 	file, err := os.Open(path)
 	if err != nil {
@@ -37,19 +65,17 @@ func ReadLinesXMAS(path string) []XMAS {
 	}
 	defer file.Close()
 
-	var output []XMAS
-	var counter int
+	var output []int
 
 	scanner := bufio.NewScanner(file)
 
 	for scanner.Scan() {
 		liner := scanner.Text()
 		lineInt, _ := strconv.Atoi(liner)
-		lineXMAS := XMAS{Num: lineInt, Place: counter}
-		output = append(output, lineXMAS)
-		counter++
+		output = append(output, lineInt)
 	}
-	return output
+	xmasOuput := ConvertToXmas(output)
+	return xmasOuput
 }
 func ReadLinesAsync(path string, jobs chan<- string, wg *sync.WaitGroup) {
 	file, err := os.Open(path)

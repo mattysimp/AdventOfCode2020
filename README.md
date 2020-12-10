@@ -77,7 +77,7 @@ BenchmarkParts-8                    1262           1048497 ns/op
 BenchmarkPartsStress-8                 3         478022600 ns/op
 ```
 
-## Day7
+## Day 7
 ### Solution
 Read input file sends contents asynchronously to a single processor which creates a tree of bags with a hash table of bag pointers to find the starting point in the tree. Has to wait until all data is read to start traversing the tree
 #### Part 1
@@ -89,7 +89,7 @@ Traverses the tree downwords concurrently sending number of bags needed to a rec
 BenchmarkParts-8             115          10226053 ns/op
 ```
 
-## Day8
+## Day 8
 ### Solution
 Read input file into slice. Run through game console slice following the nop, acc and jmp instructions
 #### Part 1
@@ -102,7 +102,7 @@ BenchmarkPart1-8            6081            336293 ns/op
 BenchmarkPart2-8             170           7111766 ns/op
 ```
 
-## Day9
+## Day 9
 ### Solution
 #### Part 1
 Loop through slice and send each 26 element slice to worker. In worker, loop through each slice creating a hash table used to find the sum of 2 that adds to the final element. If it doesn't exist then return the final element.
@@ -112,4 +112,17 @@ Loop through slice and send each set of element slice to worker (Slice[1:...], S
 ```
 BenchmarkPart1-8                    1188           1147305 ns/op
 BenchmarkPart2WithPart1-8           1999            651826 ns/op
+```
+
+## Day 10
+### Solution
+Read lines in, sort and convert to XMAS record used in Day 9. 
+#### Part 1
+Loop through adding differences between entries in a hash map. Multiple the 1 differences by the 3 differences
+#### Part 2
+Recusrivley traverse the slice by getting a list of valid next inputs and recursing for each valid next input adding together the number of following combinations from that point. These are added to a hash table to memoize the data to speed up later reads.
+### Benchmarks
+```
+BenchmarkPart1-8                   12817             84965 ns/op
+BenchmarkPart2WithPart1-8          13969             86835 ns/op
 ```
