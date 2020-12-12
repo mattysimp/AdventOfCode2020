@@ -113,3 +113,15 @@ Loop through slice and send each set of element slice to worker (Slice[1:...], S
 BenchmarkPart1-8                    1188           1147305 ns/op
 BenchmarkPart2WithPart1-8           1999            651826 ns/op
 ```
+
+## Day 12
+### Solution
+#### Part 1
+Loop through input moving ferry as specified.
+#### Part 2
+Loop through input moving 2 ferry varibles (Ferry and Waypoint) as specified.
+### Benchmarks
+```
+BenchmarkPart1-8                    5658            211627 ns/op
+BenchmarkPart2WithPart1-8           4436            275336 ns/op
+```
