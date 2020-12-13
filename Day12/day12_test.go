@@ -28,7 +28,7 @@ func BenchmarkPart1(b *testing.B) {
 		part1(input)
 	}
 }
-func BenchmarkPart2WithPart1(b *testing.B) {
+func BenchmarkPart2(b *testing.B) {
 	for x := 1; x <= b.N; x++ {
 		input := fileReader.ReadLines("input.txt")
 		part2(input)

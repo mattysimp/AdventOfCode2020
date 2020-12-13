@@ -33,7 +33,7 @@ func (f *ferry) rotate(degrees float64) {
 }
 
 func main() {
-	input := fileReader.ReadLines("Day12/inputinput.txt")
+	input := fileReader.ReadLines("Day12/input.txt")
 
 	fmt.Println(part1(input))
 	fmt.Println(part2(input))
