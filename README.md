@@ -125,3 +125,15 @@ Loop through input moving 2 ferry varibles (Ferry and Waypoint) as specified.
 BenchmarkPart1-8                    5658            211627 ns/op
 BenchmarkPart2WithPart1-8           4436            275336 ns/op
 ```
+
+## Day 13
+### Solution
+#### Part 1
+Compare each buses next departure time after the start time.
+#### Part 2
+Moving through the bus id's find a correct time for the first bus. The step to the next bus can now be the correct time for the last bus. Find the correct time that is correct for both the first bus and the second bus and change the step to that time. Keep repeating until all buses are satisfied.
+### Benchmark
+```
+BenchmarkPart1-8                   15304             68270 ns/op
+BenchmarkPart2-8          13843             77440 ns/op
+```
