@@ -126,3 +126,17 @@ Recusrivley traverse the slice by getting a list of valid next inputs and recurs
 BenchmarkPart1-8                   12817             84965 ns/op
 BenchmarkPart2WithPart1-8          13969             86835 ns/op
 ```
+
+## Day 11
+### Solution
+Read data into a hash map of key image.Point and val rune. Recursively run through map checking for changes to seats. Write new positions to a new hash map. If nothing has changed then return count od occupied seats
+#### Part 1
+Tolerance set as 4. Function for finding adjacent points to check is a simple point.Add
+#### Part 2
+Tolerance set as 5. Function for finding adjacent loops to find a point that isn't '.', this included null mappings.
+### Benchmarks
+This one was a really slow solution. I may come back and try and make it more efficient.
+```
+BenchmarkPart1-8                       2         817506050 ns/op
+BenchmarkPart2-8                       1        1887993200 ns/op
+```

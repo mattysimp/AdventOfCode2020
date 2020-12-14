@@ -2,6 +2,7 @@ package fileReader
 
 import (
 	"bufio"
+	"image"
 	"os"
 	"strconv"
 	"sync"
@@ -17,6 +18,29 @@ func ConvertToXmas(lines []int) []XMAS {
 	for i, val := range lines {
 		lineXMAS := XMAS{Num: val, Place: i}
 		output = append(output, lineXMAS)
+	}
+	return output
+}
+
+func ReadLinesCoordMap(path string) map[image.Point]rune {
+	file, err := os.Open(path)
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+
+	output := make(map[image.Point]rune)
+
+	scanner := bufio.NewScanner(file)
+	x := 0
+	for scanner.Scan() {
+		liner := scanner.Text()
+		y := 0
+		for _, char := range liner {
+			output[image.Point{x, y}] = char
+			y++
+		}
+		x++
 	}
 	return output
 }
