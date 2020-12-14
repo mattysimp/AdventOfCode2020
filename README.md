@@ -185,8 +185,21 @@ result:     000000000000000000000000000001001001
 ```
 Save result in mem location and loop through to sum after completed all lines.
 #### Part 2
-Create slice of ints. Do bit operation 1 as shown above and add to slice. Loop through mask and for every X, duplicate each entry in slice and take i (position in mark) `newAddress = address - (i^2/)2`
+Create slice of ints.  Replace all X's with 0's and do an or operation and add to slice. Loop through mask and for every X, duplicate each entry in slice and take i (position in mark) `newAddress = address - (i^2/)2`
 Save the result in each memory address. Loop through to sum after completed all lines.
+##### Example
+```
+value:      000000000000000000000000000000101010
+mask:       000000000000000000000000000000X1001X
+
+or:         000000000000000000000000000000110011
+result:     000000000000000000000000000000111011
+
+afterloop:  000000000000000000000000000000111011
+            000000000000000000000000000000011011
+            000000000000000000000000000000111010
+            000000000000000000000000000000011010
+```
 ### Benchmark
 ```
 BenchmarkPart1-8            1428            810226 ns/op
