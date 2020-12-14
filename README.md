@@ -161,6 +161,34 @@ Compare each buses next departure time after the start time.
 Moving through the bus id's find a correct time for the first bus. The step to the next bus can now be the correct time for the last bus. Find the correct time that is correct for both the first bus and the second bus and change the step to that time. Keep repeating until all buses are satisfied.
 ### Benchmark
 ```
-BenchmarkPart1-8                   15304             68270 ns/op
-BenchmarkPart2-8          13843             77440 ns/op
+BenchmarkPart1-8            15304             68270 ns/op
+BenchmarkPart2-8            13843             77440 ns/op
+```
+
+## Day 14
+### Solution
+Read input into slice and split. If mask then save to variable, if mem then get address and bits.
+#### Part 1
+Use two bit operations to replace all the bits with all non X's in mask.
+1. Replace all X's with 0's and do an or operation
+2. replace all X's with 1's and do an and operation
+##### Example
+```
+value:      000000000000000000000000000000001011
+mask:       XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X
+
+or:         000000000000000000000000000001000000
+result1:    000000000000000000000000000001001011
+
+and:        111111111111111111111111111111111101
+result:     000000000000000000000000000001001001
+```
+Save result in mem location and loop through to sum after completed all lines.
+#### Part 2
+Create slice of ints. Do bit operation 1 as shown above and add to slice. Loop through mask and for every X, duplicate each entry in slice and take i (position in mark) `newAddress = address - (i^2/)2`
+Save the result in each memory address. Loop through to sum after completed all lines.
+### Benchmark
+```
+BenchmarkPart1-8            1428            810226 ns/op
+BenchmarkPart2-8              66          16772714 ns/op
 ```
