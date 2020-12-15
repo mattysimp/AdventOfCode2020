@@ -205,3 +205,14 @@ afterloop:  000000000000000000000000000000111011
 BenchmarkPart1-8            1428            810226 ns/op
 BenchmarkPart2-8              66          16772714 ns/op
 ```
+
+## Day 15
+### Solution
+Loop for target number iterations (p1: 2020, p2: 30,000,000). If `i < len(input)`, return value from input and write to an array. Write the turn number to an array at the address of the current number.If not, if the current numbers address has a non-zero value in the array then the next number is i minus that number. If it is zero, then next number is 0. 
+
+I used a hash map first but swapped to a slice of length 30,000,000 for greater speed efficiency with not having to do hash calculations. This would make the code not usable for greater lengths without changing the static length. The change took part 2 from taking >3s to <1s.
+### Benchmark
+```
+BenchmarkPart1-8              44          27136614 ns/op
+BenchmarkPart2-8               2         817040350 ns/op
+```
